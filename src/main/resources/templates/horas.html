@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Calculadora de Horas</title>
+    <style>
+        .container {
+            max-width: 720px;
+            margin: 2rem auto;
+            font-family: system-ui, sans-serif;
+        }
+
+        .fila {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            margin-bottom: .5rem;
+        }
+
+        .acciones {
+            display: flex;
+            gap: .5rem;
+            margin-top: 1rem;
+        }
+
+        input[type="time"] {
+            padding: .4rem;
+        }
+
+        button {
+            padding: .45rem .75rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Calculadora de Horas (server-side add/remove)</h1>
+
+    <form th:action="@{/horas}" th:object="${calculadoraForm}" method="post">
+        <div id="lista-horas">
+            <div class="fila" th:each="hora, stat : *{tiempos}">
+                <div>
+                    <input type="number" th:field="*{tiempos[__${stat.index}__].horas}" min="0" max="9999" maxlength="2" oninput="if(this.value > 9999) this.value = 9999" />
+                    <input type="number" th:field="*{tiempos[__${stat.index}__].minutos}" min="0" max="59" maxlength="2" oninput="if(this.value > 59) this.value = 59" />
+                    <input type="number" th:field="*{tiempos[__${stat.index}__].segundos}" min="0" max="59" maxlength="2" oninput="if(this.value > 59) this.value = 59" />
+                </div>
+                <!-- El value envía el índice al controlador en @RequestParam("remove") -->
+                <button type="submit" name="remove" th:value="${stat.index}">−</button>
+            </div>
+        </div>
+
+        <div class="acciones">
+            <!-- Presencia de 'add' dispara @PostMapping(params="add") -->
+            <button type="submit" name="add">+ Agregar</button>
+            <!-- Submit normal (sin params) -> calcula -->
+            <button type="submit">Calcular</button>
+        </div>
+    </form>
+    <h3 th:if="${error} != null" style="color:darkred"><span th:text="${error}"></span></h3>
+
+    <h2>Total (HH:mm:ss): <span th:text="${total}">00:00:00</span></h2>
+</div>
+</body>
+</html>
