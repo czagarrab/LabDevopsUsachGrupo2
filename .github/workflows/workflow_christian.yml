@@ -2,5 +2,20 @@ name: workflow_christian.yml
 on:
   push:
     branches:
-      - main
+      - rama_christian
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # opciones: temurin, zulu, corretto, etc.
+          java-version: '17'      # cambia a 11, 21 u otra versión si lo necesitas
+          cache: 'maven'
+
+      - name: Compilar con Maven
+        run: mvn clean install -B
