@@ -2,7 +2,7 @@ name: workflow_christian.yml
 on:
   push:
     branches:
-      - rama_christian
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
