@@ -19,13 +19,6 @@ jobs:
 
       - name: Compilar con Maven
         run: mvn clean install -B
-
-     # - name: Build & Test (with JaCoCo)
-     ##   run: |
-      #    mvn -B -e \
-      #      -DskipTests=false \
-      #      clean verify \
-      #      org.jacoco:jacoco-maven-plugin:prepare-agent
           
       - name: SonarCloud Scan
         env:
