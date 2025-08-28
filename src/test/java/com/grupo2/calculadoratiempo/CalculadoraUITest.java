@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+@Tag("ui")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CalculadoraUITest {
 
