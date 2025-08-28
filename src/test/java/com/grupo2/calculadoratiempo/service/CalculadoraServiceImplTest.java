@@ -51,4 +51,39 @@ class CalculadoraServiceImplTest {
         Exception ex = assertThrows(Exception.class, () -> service.calcular(tiempos));
         assertTrue(ex.getMessage().contains("segundos"));
     }
+
+    // Prueba con valores máximos permitidos
+    @Test
+    void calcular_valoresMaximosPermitidos() throws Exception {
+        List<Tiempo> tiempos = List.of(new Tiempo(9999, 59, 59));
+        String resultado = service.calcular(tiempos);
+        assertEquals("9999:59:59", resultado);
+    }
+
+    // Prueba con todos los valores en cero
+    @Test
+    void calcular_todosCeros() throws Exception {
+        List<Tiempo> tiempos = List.of(new Tiempo(0, 0, 0));
+        String resultado = service.calcular(tiempos);
+        assertEquals("00:00:00", resultado);
+    }
+
+    // Prueba suma que genera carry en minutos y horas
+    @Test
+    void calcular_sumaCarryMinutosYHoras() throws Exception {
+        List<Tiempo> tiempos = Arrays.asList(
+                new Tiempo(1, 59, 59),
+                new Tiempo(0, 0, 2)
+        );
+        String resultado = service.calcular(tiempos);
+        assertEquals("02:00:01", resultado);
+    }
+
+    // Prueba formato de dos dígitos
+    @Test
+    void calcular_formatoDosDigitos() throws Exception {
+        List<Tiempo> tiempos = List.of(new Tiempo(2, 3, 4));
+        String resultado = service.calcular(tiempos);
+        assertEquals("02:03:04", resultado);
+    }
 }
