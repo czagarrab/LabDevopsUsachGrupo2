@@ -1,7 +1,6 @@
-package com.grupo2.calculadoratiempo;
+package com.grupo2.calculadoratiempo.service;
 
 import com.grupo2.calculadoratiempo.model.Tiempo;
-import com.grupo2.calculadoratiempo.service.CalculadoraServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
