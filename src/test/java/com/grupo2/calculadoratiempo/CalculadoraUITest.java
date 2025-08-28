@@ -20,7 +20,7 @@ class CalculadoraUITest {
     void setUp() {
         // Asegúrate de que el path al chromedriver sea correcto
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(new org.openqa.selenium.chrome.ChromeOptions().addArguments("--headless=new"));
     }
 
     @Test
