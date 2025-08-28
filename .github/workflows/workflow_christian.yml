@@ -27,7 +27,7 @@ jobs:
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
         run: |
-          mvn -B sonar:sonar \
+          mvn -B org.sonarsource.scanner.maven:sonar:sonar-maven-pluggin:sonar \
             -Dsonar.organization=${SONAR_ORGANIZATION} \
             -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
             -Dsonar.token="${SONAR_TOKEN}" \
