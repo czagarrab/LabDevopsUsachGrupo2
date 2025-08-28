@@ -41,25 +41,31 @@
         <div id="lista-horas">
             <div class="fila" th:each="hora, stat : *{tiempos}">
                 <div>
-                    <input type="number" th:field="*{tiempos[__${stat.index}__].horas}" min="0" max="9999" maxlength="2" oninput="if(this.value > 9999) this.value = 9999" />
-                    <input type="number" th:field="*{tiempos[__${stat.index}__].minutos}" min="0" max="59" maxlength="2" oninput="if(this.value > 59) this.value = 59" />
-                    <input type="number" th:field="*{tiempos[__${stat.index}__].segundos}" min="0" max="59" maxlength="2" oninput="if(this.value > 59) this.value = 59" />
+                    <label>
+                        <input type="number" th:field="*{tiempos[__${stat.index}__].horas}" min="0" max="9999" oninput="if(this.value > 9999) this.value = 9999">
+                    </label>
+                    <label>
+                        <input type="number" th:field="*{tiempos[__${stat.index}__].minutos}" min="0" max="59" oninput="if(this.value > 59) this.value = 59" />
+                    </label>
+                    <label>
+                        <input type="number" th:field="*{tiempos[__${stat.index}__].segundos}" min="0" max="59" oninput="if(this.value > 59) this.value = 59" />
+                    </label>
                 </div>
                 <!-- El value envía el índice al controlador en @RequestParam("remove") -->
-                <button type="submit" name="remove" th:value="${stat.index}">−</button>
+                <button type="submit" name="remove" th:value="${stat.index}" th:id="${stat.index} + '.remove'">−</button>
             </div>
         </div>
 
         <div class="acciones">
             <!-- Presencia de 'add' dispara @PostMapping(params="add") -->
-            <button type="submit" name="add">+ Agregar</button>
+            <button type="submit" name="add" id="inputAdd">+ Agregar</button>
             <!-- Submit normal (sin params) -> calcula -->
-            <button type="submit">Calcular</button>
+            <button type="submit" id="inputCalculate">Calcular</button>
         </div>
     </form>
     <h3 th:if="${error} != null" style="color:darkred"><span th:text="${error}"></span></h3>
 
-    <h2>Total (HH:mm:ss): <span th:text="${total}">00:00:00</span></h2>
+    <h2>Total (HH:mm:ss): <span th:text="${total}" id="result">00:00:00</span></h2>
 </div>
 </body>
 </html>
