@@ -12,7 +12,7 @@ import java.time.Duration;
 
 @Tag("ui")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CalculadoraUITest {
+class CalculadoraUITest {
 
     private WebDriver driver;
 

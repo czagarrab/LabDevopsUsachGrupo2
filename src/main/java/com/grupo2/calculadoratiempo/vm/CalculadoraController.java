@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 public class CalculadoraController {
 
     private final CalculadoraService calculadoraService;
-    private final String FORM_VIEW = "calculadoraForm";
-    private final String TOTAL_ATTRIBUTE = "total";
-    private final String ERROR_ATTRIBUTE = "error";
-    private final String ZERO_TIME = "00:00:00";
-    private final String TEMPLATE_HORAS = "horas";
+    private static final String formView = "calculadoraForm";
+    private static final String totalAttribute = "total";
+    private static final String errorAttribute = "error";
+    private static final String zeroTime = "00:00:00";
+    private static final String templateHoras = "horas";
 
     @GetMapping
     public String form(Model model) {
-        model.addAttribute(FORM_VIEW, new CalculadoraForm());
-        model.addAttribute(TOTAL_ATTRIBUTE, ZERO_TIME);
-        model.addAttribute(ERROR_ATTRIBUTE, null);
-        return TEMPLATE_HORAS;
+        model.addAttribute(formView, new CalculadoraForm());
+        model.addAttribute(totalAttribute, zeroTime);
+        model.addAttribute(errorAttribute, null);
+        return templateHoras;
     }
 
     // 2) Agregar fila en servidor
@@ -32,10 +32,10 @@ public class CalculadoraController {
     public String agregarFila(@ModelAttribute CalculadoraForm calculadoraForm, Model model) {
         calculadoraForm.getTiempos().add(new Tiempo(0, 0, 0));
         // No calculamos nada aquí; solo render con los datos actuales
-        model.addAttribute(FORM_VIEW, calculadoraForm);
-        model.addAttribute(TOTAL_ATTRIBUTE, ZERO_TIME);
-        model.addAttribute(ERROR_ATTRIBUTE, null);
-        return TEMPLATE_HORAS;
+        model.addAttribute(formView, calculadoraForm);
+        model.addAttribute(totalAttribute, zeroTime);
+        model.addAttribute(errorAttribute, null);
+        return templateHoras;
     }
 
     @PostMapping(params = "remove")
@@ -48,30 +48,30 @@ public class CalculadoraController {
         if (calculadoraForm.getTiempos().isEmpty()) {
             calculadoraForm.getTiempos().add(new Tiempo(0, 0, 0));
         }
-        model.addAttribute(FORM_VIEW, calculadoraForm);
-        model.addAttribute(TOTAL_ATTRIBUTE, ZERO_TIME);
-        model.addAttribute(ERROR_ATTRIBUTE, null);
-        return TEMPLATE_HORAS;
+        model.addAttribute(formView, calculadoraForm);
+        model.addAttribute(totalAttribute, zeroTime);
+        model.addAttribute(errorAttribute, null);
+        return templateHoras;
     }
 
     @PostMapping
     public String calcular(@ModelAttribute CalculadoraForm calculadoraForm, Model model) {
-        String total = ZERO_TIME;
+        String total = zeroTime;
         try {
             if (calculadoraForm.getTiempos() == null) {
-                total = ZERO_TIME;
+                total = zeroTime;
             } else {
                 total = calculadoraService.calcular(calculadoraForm.getTiempos());
             }
-            model.addAttribute(FORM_VIEW, calculadoraForm);
-            model.addAttribute(TOTAL_ATTRIBUTE, total);
-            model.addAttribute(ERROR_ATTRIBUTE, null);
-            return TEMPLATE_HORAS;
+            model.addAttribute(formView, calculadoraForm);
+            model.addAttribute(totalAttribute, total);
+            model.addAttribute(errorAttribute, null);
+            return templateHoras;
         } catch (Exception e) {
-            model.addAttribute(FORM_VIEW, calculadoraForm);
-            model.addAttribute(TOTAL_ATTRIBUTE, total);
-            model.addAttribute(ERROR_ATTRIBUTE, e.getMessage());
-            return TEMPLATE_HORAS;
+            model.addAttribute(formView, calculadoraForm);
+            model.addAttribute(totalAttribute, total);
+            model.addAttribute(errorAttribute, e.getMessage());
+            return templateHoras;
         }
     }
 
