@@ -1,10 +1,12 @@
 package com.grupo2.calculadoratiempo;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,12 +17,25 @@ import java.time.Duration;
 class CalculadoraUITest {
 
     private WebDriver driver;
+    private WebDriverWait wait;
+    private String baseUrl;
 
     @BeforeAll
-    void setUp() {
-        // Asegúrate de que el path al chromedriver sea correcto
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-        driver = new ChromeDriver(new org.openqa.selenium.chrome.ChromeOptions().addArguments("--headless=new"));
+    void setupClass() {
+        // URL base: usar variable de entorno si está definida (ideal en CI)
+        String envUrl = System.getenv("BASE_URL");
+        baseUrl = (envUrl != null && !envUrl.isBlank())
+                ? envUrl
+                : "http://localhost:8080/horas";
+
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--window-size=1366,768");
+        // Opcional: desactivar GPU/infobars para entornos CI
+        options.addArguments("--disable-gpu", "--disable-infobars");
+        driver = new ChromeDriver(options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     @Test

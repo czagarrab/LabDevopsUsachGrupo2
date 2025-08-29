@@ -4,7 +4,9 @@ on:
     branches:
       - master
 jobs:
+
   build:
+    name: 'Build and Analyze with SonarCloud'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout código
